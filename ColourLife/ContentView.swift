@@ -12,10 +12,12 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-        FrameView(image: model.frame)
-            .edgesIgnoringSafeArea(.all)
-            ErrorView(error: model.error)
-
+//            FrameView(image: model.frame)
+//                .edgesIgnoringSafeArea(.all)
+//            ErrorView(error: model.error)
+            Image("apples-1")
+                .resizable()
+                .scaledToFill()
         }
     }
 }
