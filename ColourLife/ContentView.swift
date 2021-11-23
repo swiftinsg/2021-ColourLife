@@ -120,6 +120,7 @@ struct ContentView: View {
 //                            .foregroundColor(toggle5 ? Color.white : Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.5))
 //                            .cornerRadius(15)
                         }
+                        .offset(x:15)
                     }
                     
                     HStack{
