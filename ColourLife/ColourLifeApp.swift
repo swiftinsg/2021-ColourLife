@@ -11,7 +11,7 @@ import SwiftUI
 struct ColourLifeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(image:Image("apples"), inputImage: UIImage(imageLiteralResourceName: "apples"))
         }
     }
 }
