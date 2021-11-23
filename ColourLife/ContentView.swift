@@ -50,6 +50,7 @@ struct ContentView: View {
 
                                 
                             }
+                            Spacer(minLength: 30)
 //                            Button("Normal"){
 //                                //no filter
 //                                toggle1 = true
