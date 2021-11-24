@@ -15,57 +15,59 @@ struct ContentView: View {
     
     @State private var currentFilter = CIFilter.sepiaTone()
     let context = CIContext()
-    @State var image = Image("apples-2")
-    @State var inputImage = UIImage(imageLiteralResourceName: "apples-2")
+    //    @State var image = UIImage(imageLiteralResourceName: "apples-2")
+    //    @State var inputImage = UIImage(imageLiteralResourceName: "apples-2")
     
-    func applyFilter() {
+    func applyFilter() -> CGImage? {
         switch buttonPressed {
         case 0:
-            image = Image(uiImage: inputImage)
+            //            image = UIImage(model.frame)
+            return model.frame
         default:
-            loadImage()
+            return loadImage()
         }
     }
     
-    func applyProcessing() {
+//    func applyProcessing() -> CGImage? {
+//
+//        currentFilter.intensity = Float(severity)
+//
+//        guard let outputImage = currentFilter.outputImage else { return model.frame}
+//
+//        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+//            //            let uiImage = UIImage(cgImage: cgimg)
+//            return cgimg
+//        }
+//        return model.frame
+//    }
+    
+    func loadImage() -> CGImage? {
+        guard let inputImage = model.frame else { return model.frame}
+        
+        let beginImage =  CIImage(cgImage: inputImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
         
         currentFilter.intensity = Float(severity)
         
-        guard let outputImage = currentFilter.outputImage else { return }
+        guard let outputImage = currentFilter.outputImage else { return model.frame}
         
         if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-            let uiImage = UIImage(cgImage: cgimg)
-            image = Image(uiImage: uiImage)
+            //            let uiImage = UIImage(cgImage: cgimg)
+            return cgimg
         }
-    }
-    
-    func loadImage() {
-        //        guard let inputImage = inputImage else { return }
-        
-        let beginImage = CIImage(image: inputImage)
-        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-        applyProcessing()
+        return model.frame
     }
     
     var body: some View {
-        let intensity = Binding<Double>(
-            get: {
-                self.severity
-            },
-            set: {
-                self.severity = $0
-                self.applyProcessing()
-            }
-        )
         ZStack(alignment: .bottom) {
             
-            //            FrameView(image: model.frame)
-            //                .edgesIgnoringSafeArea(.all)
-            //            ErrorView(error: model.error)
-            //                Image("apples-2")
-            image
-                .resizable()
+            FrameView(image:  applyFilter())
                 .edgesIgnoringSafeArea(.all)
+            //                        ErrorView(error: model.error)
+            //                            Image("apples-2")
+            //            image
+            //                .resizable()
+            //                .edgesIgnoringSafeArea(.all)
             
             
             
@@ -78,9 +80,7 @@ struct ContentView: View {
                         HStack(alignment: .center){
                             Text("Mild")
                                 .padding()
-                            Slider(value: intensity, in: 0...20) {_ in
-                                applyProcessing()
-                            }
+                            Slider(value: $severity, in: 0...20)
                             Text("Severe")
                                 .padding()
                         }
@@ -90,8 +90,6 @@ struct ContentView: View {
                             ForEach(0..<types.count) {type in
                                 Button(types[type]) {
                                     buttonPressed = type
-                                    applyFilter()
-                                    //filterFunction(type)
                                 }
                                 .frame(height: 30)
                                 .padding(10)
@@ -137,6 +135,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(image: Image("apples-1"))
+        ContentView()
     }
 }
