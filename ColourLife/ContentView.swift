@@ -16,31 +16,65 @@ struct ContentView: View {
     @State private var currentFilter = CIFilter.sepiaTone()
     let context = CIContext()
     //    @State var image = UIImage(imageLiteralResourceName: "apples-2")
-    //    @State var inputImage = UIImage(imageLiteralResourceName: "apples-2")
+    //    @State var inputImage: CGImage?
     
     func applyFilter() -> CGImage? {
+        let ciContext = CIContext()
+                    let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)!
         switch buttonPressed {
         case 0:
             //            image = UIImage(model.frame)
             return model.frame
+        case 1:
+            return applyDeutanFilter(input: myImage)
+//            currentFilter = DeutanFilter()
+        case 2:
+            return applyProtanFilter(input: myImage)
+//            currentFilter = ProtanFilter()
+        case 3:
+            return applyTritanFilter(input: myImage)
+//            currentFilter = TritanFilter()
         default:
             return loadImage()
         }
     }
     
-//    func applyProcessing() -> CGImage? {
-//
-//        currentFilter.intensity = Float(severity)
-//
-//        guard let outputImage = currentFilter.outputImage else { return model.frame}
-//
-//        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-//            //            let uiImage = UIImage(cgImage: cgimg)
-//            return cgimg
-//        }
-//        return model.frame
-//    }
-    
+    func applyProtanFilter(input: CGImage) -> CGImage {
+        let filter = ProtanFilter()
+        let beginImage =  CIImage(cgImage: input)
+        filter.inputImage = beginImage
+        filter.severity = Float(severity)
+        if let outputImage = filter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return cgimg
+            }
+        }
+        return input
+    }
+    func applyDeutanFilter(input: CGImage) -> CGImage {
+        let filter = DeutanFilter()
+        let beginImage =  CIImage(cgImage: input)
+        filter.inputImage = beginImage
+        filter.severity = Float(severity)
+        if let outputImage = filter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return cgimg
+            }
+        }
+        return input
+    }
+    func applyTritanFilter(input: CGImage) -> CGImage {
+        let filter = TritanFilter()
+        let beginImage =  CIImage(cgImage: input)
+        filter.inputImage = beginImage
+        filter.severity = Float(severity)
+        if let outputImage = filter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return cgimg
+            }
+        }
+        return input
+    }
     func loadImage() -> CGImage? {
         guard let inputImage = model.frame else { return model.frame}
         
@@ -80,7 +114,14 @@ struct ContentView: View {
                         HStack(alignment: .center){
                             Text("Mild")
                                 .padding()
-                            Slider(value: $severity, in: 0...20)
+                            Slider(value: $severity, in: 1...10,step:1)
+//                            { _ in
+//                                let ciContext = CIContext()
+//                                let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "apples-2"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "apples-2"))!.extent)!
+//
+//                                FrameView(image:applyColorKernal(input: myImage))
+//
+//                            }
                             Text("Severe")
                                 .padding()
                         }

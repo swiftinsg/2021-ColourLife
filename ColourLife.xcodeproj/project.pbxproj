@@ -3,13 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2E1D0DCD2747F02800A2CDF1 /* ColourLifeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D0DCC2747F02800A2CDF1 /* ColourLifeApp.swift */; };
 		2E1D0DD12747F02A00A2CDF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E1D0DD02747F02A00A2CDF1 /* Assets.xcassets */; };
 		2E1D0DD42747F02A00A2CDF1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E1D0DD32747F02A00A2CDF1 /* Preview Assets.xcassets */; };
+		2E1F56E4274E631800A0A780 /* ProtanFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F56E3274E631800A0A780 /* ProtanFilter.swift */; };
+		2E1F570E274ECE4700A0A780 /* ProtanFilter.ci.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F570D274ECE4700A0A780 /* ProtanFilter.ci.metal */; };
+		2E1F571B274EDDC600A0A780 /* DeutanFilter.ci.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F571A274EDDC600A0A780 /* DeutanFilter.ci.metal */; };
+		2E1F571E274F21FE00A0A780 /* DeutanFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F571D274F21FE00A0A780 /* DeutanFilter.swift */; };
+		2E1F5721274F24F700A0A780 /* TritanFilter.ci.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F5720274F24F700A0A780 /* TritanFilter.ci.metal */; };
+		2E1F5724274F25AE00A0A780 /* TritanFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F5723274F25AE00A0A780 /* TritanFilter.swift */; };
 		2E30930F274BF5EC001734F9 /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E30930E274BF5EC001734F9 /* CGImageExtension.swift */; };
 		2E309313274BF618001734F9 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E309312274BF618001734F9 /* ErrorView.swift */; };
 		2E309317274BF63D001734F9 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E309316274BF63D001734F9 /* CameraManager.swift */; };
@@ -20,12 +26,49 @@
 		2EDBA88D274B784A0036F133 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDBA88C274B784A0036F133 /* ContentViewModel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		2E1F56DE274E538F00A0A780 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.ci.metal";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/${INPUT_FILE_BASE}.air",
+			);
+			runOncePerArchitecture = 0;
+			script = "# Type a script or drag a script file from your workspace to insert its path.\nxcrun metal -c -I $MTL_HEADER_SEARCH_PATHS -fcikernel \"${INPUT_FILE_PATH}\" \\\n  -o \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
+		2E1F56DF274E542800A0A780 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.ci.air";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(METAL_LIBRARY_OUTPUT_DIR)/$(INPUT_FILE_BASE).metallib",
+			);
+			runOncePerArchitecture = 0;
+			script = "# Type a script or drag a script file from your workspace to insert its path.\nxcrun metallib -cikernel \"${INPUT_FILE_PATH}\" -o \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXFileReference section */
 		2E1D0DC92747F02800A2CDF1 /* ColourLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColourLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E1D0DCC2747F02800A2CDF1 /* ColourLifeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourLifeApp.swift; sourceTree = "<group>"; };
 		2E1D0DD02747F02A00A2CDF1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E1D0DD32747F02A00A2CDF1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2E1D0DD52747F02A00A2CDF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E1F56E3274E631800A0A780 /* ProtanFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtanFilter.swift; sourceTree = "<group>"; };
+		2E1F570D274ECE4700A0A780 /* ProtanFilter.ci.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = ProtanFilter.ci.metal; sourceTree = "<group>"; };
+		2E1F571A274EDDC600A0A780 /* DeutanFilter.ci.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = DeutanFilter.ci.metal; sourceTree = "<group>"; };
+		2E1F571D274F21FE00A0A780 /* DeutanFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeutanFilter.swift; sourceTree = "<group>"; };
+		2E1F5720274F24F700A0A780 /* TritanFilter.ci.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = TritanFilter.ci.metal; sourceTree = "<group>"; };
+		2E1F5723274F25AE00A0A780 /* TritanFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TritanFilter.swift; sourceTree = "<group>"; };
 		2E30930E274BF5EC001734F9 /* CGImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
 		2E309312274BF618001734F9 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		2E309316274BF63D001734F9 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
@@ -76,6 +119,7 @@
 				2E309312274BF618001734F9 /* ErrorView.swift */,
 				2E30931A274BF673001734F9 /* CameraError.swift */,
 				2E1D0DD02747F02A00A2CDF1 /* Assets.xcassets */,
+				2E1F56DD274E528A00A0A780 /* Filters */,
 				2E1D0DD52747F02A00A2CDF1 /* Info.plist */,
 				2E1D0DD22747F02A00A2CDF1 /* Preview Content */,
 			);
@@ -90,6 +134,19 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		2E1F56DD274E528A00A0A780 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				2E1F570D274ECE4700A0A780 /* ProtanFilter.ci.metal */,
+				2E1F56E3274E631800A0A780 /* ProtanFilter.swift */,
+				2E1F571A274EDDC600A0A780 /* DeutanFilter.ci.metal */,
+				2E1F571D274F21FE00A0A780 /* DeutanFilter.swift */,
+				2E1F5720274F24F700A0A780 /* TritanFilter.ci.metal */,
+				2E1F5723274F25AE00A0A780 /* TritanFilter.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -102,6 +159,8 @@
 				2E1D0DC72747F02800A2CDF1 /* Resources */,
 			);
 			buildRules = (
+				2E1F56DF274E542800A0A780 /* PBXBuildRule */,
+				2E1F56DE274E538F00A0A780 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -162,12 +221,18 @@
 				2EDBA879274B73480036F133 /* FrameView.swift in Sources */,
 				2E30931B274BF673001734F9 /* CameraError.swift in Sources */,
 				2E30930F274BF5EC001734F9 /* CGImageExtension.swift in Sources */,
+				2E1F571B274EDDC600A0A780 /* DeutanFilter.ci.metal in Sources */,
+				2E1F5721274F24F700A0A780 /* TritanFilter.ci.metal in Sources */,
 				2EDBA889274B78020036F133 /* FrameManager.swift in Sources */,
 				2E309317274BF63D001734F9 /* CameraManager.swift in Sources */,
 				2EDBA88D274B784A0036F133 /* ContentViewModel.swift in Sources */,
+				2E1F570E274ECE4700A0A780 /* ProtanFilter.ci.metal in Sources */,
+				2E1F571E274F21FE00A0A780 /* DeutanFilter.swift in Sources */,
 				2E3A475F274CC97E00C6DB66 /* ContentView.swift in Sources */,
+				2E1F5724274F25AE00A0A780 /* TritanFilter.swift in Sources */,
 				2E309313274BF618001734F9 /* ErrorView.swift in Sources */,
 				2E1D0DCD2747F02800A2CDF1 /* ColourLifeApp.swift in Sources */,
+				2E1F56E4274E631800A0A780 /* ProtanFilter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +369,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MTL_COMPILER_FLAGS = "";
+				MTL_FAST_MATH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = sg.tk.ColourLife;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -325,6 +392,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MTL_COMPILER_FLAGS = "";
+				MTL_FAST_MATH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = sg.tk.ColourLife;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
