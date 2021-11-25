@@ -106,22 +106,6 @@ struct ContentView: View {
         }
         return input
     }
-    //    func loadImage() -> CGImage? {
-    //        guard let inputImage = model.frame else { return model.frame}
-    //
-    //        let beginImage =  CIImage(cgImage: inputImage)
-    //        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-    //
-    //        currentFilter.intensity = Float(severity)
-    //
-    //        guard let outputImage = currentFilter.outputImage else { return model.frame}
-    //
-    //        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-    //            //            let uiImage = UIImage(cgImage: cgimg)
-    //            return cgimg
-    //        }
-    //        return model.frame
-    //    }
     
     func loadImage() {
         guard let inputImage = inputImage else { return }
@@ -143,12 +127,6 @@ struct ContentView: View {
             FrameView(image: applyFilter())
                 .edgesIgnoringSafeArea(.all)
             
-            //                        ErrorView(error: model.error)
-            //                            Image("apples-2")
-            //            image
-            //                .resizable()
-            //                .edgesIgnoringSafeArea(.all)
-            
             
             
             ZStack(alignment: .bottom) {
@@ -161,13 +139,6 @@ struct ContentView: View {
                             Text("Mild")
                                 .padding()
                             Slider(value: $severity, in: 1...10,step:1)
-                            //                            { _ in
-                            //                                let ciContext = CIContext()
-                            //                                let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "apples-2"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "apples-2"))!.extent)!
-                            //
-                            //                                FrameView(image:applyColorKernal(input: myImage))
-                            //
-                            //                            }
                             Text("Severe")
                                 .padding()
                         }
@@ -224,13 +195,6 @@ struct ContentView: View {
                                 FrameView(image: applyFilter())
                                     .edgesIgnoringSafeArea(.all)
                                 
-                                
-                                
-                                
-                                
-                                
-                                
-                                ZStack() {
                                 VStack {
                                     Button("Save to Photos"){
                                         loadImage()
@@ -252,7 +216,6 @@ struct ContentView: View {
                                     
                                 }
                                 .offset(y: UIScreen.main.bounds.size.height/3)
-                                }
                             }
                         }
                         
