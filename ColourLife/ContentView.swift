@@ -11,12 +11,18 @@ struct ContentView: View {
     @State private var infoViewIsPresented = false
     @State private var pictureViewIsPresented = false
     
-    
+
     let context = CIContext()
-    //    @State var image = UIImage(imageLiteralResourceName: "apples-2")
-    //    @State var inputImage: CGImage?
+    
+//    @State private var processedImage: UIImage?
+    @State private var image: Image?
+    @State private var inputImage: UIImage?
+    @State private var showingImagePicker = false
+    
+    @State var isUsingOwnImage = false
     
     func applyFilter() -> CGImage? {
+
         if let image = model.frame {
             switch buttonPressed {
             case 0:
@@ -36,6 +42,7 @@ struct ContentView: View {
             }
         } else {
             return nil
+
         }
     }
     
@@ -97,33 +104,33 @@ struct ContentView: View {
         }
         return input
     }
-    //    func loadImage() -> CGImage? {
-    //        guard let inputImage = model.frame else { return model.frame}
-    //
-    //        let beginImage =  CIImage(cgImage: inputImage)
-    //        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-    //
-    //        currentFilter.intensity = Float(severity)
-    //
-    //        guard let outputImage = currentFilter.outputImage else { return model.frame}
-    //
-    //        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-    //            //            let uiImage = UIImage(cgImage: cgimg)
-    //            return cgimg
-    //        }
-    //        return model.frame
-    //    }
+    
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
+        
+        UIImageWriteToSavedPhotosAlbum(inputImage, nil, nil, nil)
+        let imageSaver = ImageSaver()
+        imageSaver.writeToPhotoAlbum(image: inputImage)
+    }
+    
+    //func transferImage() {
+    //    processedImage = FrameView.image
+    //}
     
     var body: some View {
         ZStack(alignment: .bottom) {
             
-            FrameView(image:  applyFilter())
+            
+            FrameView(image: applyFilter())
                 .edgesIgnoringSafeArea(.all)
+
             ErrorView(error: model.error)
 //            Image("apples-2")
             //            image
             //                .resizable()
             //                .edgesIgnoringSafeArea(.all)
+
             
             
             
@@ -137,19 +144,12 @@ struct ContentView: View {
                             Text("Mild")
                                 .padding()
                             Slider(value: $severity, in: 1...10,step:1)
-                            //                            { _ in
-                            //                                let ciContext = CIContext()
-                            //                                let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "apples-2"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "apples-2"))!.extent)!
-                            //
-                            //                                FrameView(image:applyColorKernal(input: myImage))
-                            //
-                            //                            }
                             Text("Severe")
                                 .padding()
                         }
                     }
                     ScrollView(.horizontal){
-                        HStack{
+                        LazyHStack{
                             ForEach(0..<types.count) {type in
                                 Button(types[type]) {
                                     buttonPressed = type
@@ -170,39 +170,40 @@ struct ContentView: View {
                         Button("\(Image(systemName: "questionmark.circle.fill"))"){
                             infoViewIsPresented = true
                         }
+                        .font(.system(size: 30))
+                        .offset(x: -UIScreen.main.bounds.size.width/6)
                         .sheet(isPresented: $infoViewIsPresented) {
                             ScrollView{
-                                Text("\(types[buttonPressed])")
-                                    .font(.system(.largeTitle))
-                                    .fontWeight(.bold)
                                 VStack {
+                                    Spacer()
+                                    Text("\(types[buttonPressed])")
+                                        .font(.system(.largeTitle))
+                                        .fontWeight(.bold)
+                                        .padding()
                                     Text("\(info[buttonPressed])")
                                         .font(.system(size:25))
                                         .padding(20)
                                     links[buttonPressed]
+                                        .font(.system(size:25))
                                         .padding()
                                 }
                             }
                         }
-                        .font(.system(size: 30))
-                        .offset(x: -UIScreen.main.bounds.size.width/6)
                         
                         Button("\(Image(systemName: "camera.circle.fill"))"){
-                            //picture sheet
+                            pictureViewIsPresented = true
                         }
                         .font(.system(size: 70))
                         .foregroundColor(Color.black)
-                        
-                        Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
-                            pictureViewIsPresented = true
-                        }
                         .fullScreenCover(isPresented: $pictureViewIsPresented) {
-                            //InfoView()
-                            ZStack {
-                                Text("\(Image("apples-1"))")
+                            ZStack() {
+                                FrameView(image: applyFilter())
+                                    .edgesIgnoringSafeArea(.all)
+                                
                                 VStack {
                                     Button("Save to Photos"){
-                                        //request access to photos
+                                        loadImage()
+                                        pictureViewIsPresented = false
                                     }
                                     .frame(height: 30)
                                     .padding(10)
@@ -212,13 +213,25 @@ struct ContentView: View {
                                     Button("Dismiss"){
                                         pictureViewIsPresented = false
                                     }
-                                    .foregroundColor(Color.red)
+                                    .frame(height: 30)
+                                        .padding(10)
+                                    .background(Color.red)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                                    
                                 }
-                                .offset(y: UIScreen.main.bounds.size.height/2.5)
+                                .offset(y: UIScreen.main.bounds.size.height/3)
                             }
+                        }
+                        
+                        Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
+                            self.showingImagePicker = true
                         }
                         .font(.system(size: 30))
                         .offset(x: UIScreen.main.bounds.size.width/6)
+                        .sheet(isPresented: $showingImagePicker) {
+                            ImagePicker(image: self.$inputImage)
+                        }
                     }
                     .offset(y: -20)
                 }
@@ -228,8 +241,6 @@ struct ContentView: View {
         .frame(height: UIScreen.main.bounds.size.height)
     }
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
