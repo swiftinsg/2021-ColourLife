@@ -13,7 +13,7 @@ struct ContentView: View {
     let types = ["Normal", "Deuteranopia","Protanopia","Tritanopia","Achromatopsia"]
     @State var buttonPressed = 0
     
-    @State private var currentFilter = CIFilter.sepiaTone()
+    @State private var currentFilter = DeutanFilter()
     let context = CIContext()
     //    @State var image = UIImage(imageLiteralResourceName: "apples-2")
     //    @State var inputImage: CGImage?
@@ -35,7 +35,8 @@ struct ContentView: View {
             return applyTritanFilter(input: myImage)
 //            currentFilter = TritanFilter()
         default:
-            return loadImage()
+//            return loadImage()
+            return myImage
         }
     }
     
@@ -75,22 +76,22 @@ struct ContentView: View {
         }
         return input
     }
-    func loadImage() -> CGImage? {
-        guard let inputImage = model.frame else { return model.frame}
-        
-        let beginImage =  CIImage(cgImage: inputImage)
-        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-        
-        currentFilter.intensity = Float(severity)
-        
-        guard let outputImage = currentFilter.outputImage else { return model.frame}
-        
-        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-            //            let uiImage = UIImage(cgImage: cgimg)
-            return cgimg
-        }
-        return model.frame
-    }
+//    func loadImage() -> CGImage? {
+//        guard let inputImage = model.frame else { return model.frame}
+//
+//        let beginImage =  CIImage(cgImage: inputImage)
+//        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+//
+//        currentFilter.intensity = Float(severity)
+//
+//        guard let outputImage = currentFilter.outputImage else { return model.frame}
+//
+//        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+//            //            let uiImage = UIImage(cgImage: cgimg)
+//            return cgimg
+//        }
+//        return model.frame
+//    }
     
     var body: some View {
         ZStack(alignment: .bottom) {

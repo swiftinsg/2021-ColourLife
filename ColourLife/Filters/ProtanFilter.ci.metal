@@ -6,7 +6,7 @@ using namespace metal;
 
 extern "C" {
     namespace coreimage {
-        float4 colorFilterKernel(sample_t s, float severity) {
+        float4 protanFilterKernel(sample_t s, float severity) {
             //      float4 swappedColor;
             //      swappedColor.r = s.g;
             //      swappedColor.g = s.b;
