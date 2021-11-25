@@ -51,6 +51,8 @@ struct ContentView: View {
         case 3:
             return applyTritanFilter(input: myImage)
             //            currentFilter = TritanFilter()
+        case 4:
+            return applyAchromatFilter(input: myImage)
         default:
             //            return loadImage()
             return myImage
@@ -93,6 +95,17 @@ struct ContentView: View {
         }
         return input
     }
+    func applyAchromatFilter(input: CGImage) -> CGImage {
+        let filter = AchromatFilter()
+        let beginImage =  CIImage(cgImage: input)
+        filter.inputImage = beginImage
+        if let outputImage = filter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return cgimg
+            }
+        }
+        return input
+    }
     //    func loadImage() -> CGImage? {
     //        guard let inputImage = model.frame else { return model.frame}
     //
@@ -128,7 +141,7 @@ struct ContentView: View {
                 Color.white
                 
                 VStack {
-                    if (buttonPressed != 0) {
+                    if (buttonPressed != 0 && buttonPressed != 4) {
                         HStack(alignment: .center){
                             Text("Mild")
                                 .padding()
@@ -219,7 +232,7 @@ struct ContentView: View {
                     .offset(y: -20)
                 }
             }
-            .frame(height: buttonPressed == 0 ? 175:220)
+            .frame(height: buttonPressed == 0 || buttonPressed == 4 ? 175:220)
         }
         .frame(height: UIScreen.main.bounds.size.height)
     }

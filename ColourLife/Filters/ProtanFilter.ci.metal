@@ -13,9 +13,9 @@ extern "C" {
             //      swappedColor.b = s.r;
             //      swappedColor.a = s.a;
             float3 pix;
-            //            pix.r = s.r;
-            //            pix.g = s.g;
-            //            pix.b = s.b;
+            //                        pix.r = s.r;
+            //                        pix.g = s.g;
+            //                        pix.b = s.b;
             for (int i = 0; i < 3; ++i) {
                 if (s[i] <= 0.04045) {
                     pix[i] = s[i] / 12.92;
@@ -83,9 +83,9 @@ extern "C" {
                     res[i] = (pow(pix[i],0.41666) * 1.055 - 0.055);
                 }
             }
-            //            res.r = pix.r;
-            //            res.g = pix.g;
-            //            res.b = pix.b;
+            //                        res.r = pix.r;
+            //                        res.g = pix.g;
+            //                        res.b = pix.b;
             res.a = s.a;
             
             return res;
