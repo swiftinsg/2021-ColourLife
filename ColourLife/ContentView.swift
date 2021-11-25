@@ -11,16 +11,15 @@ struct ContentView: View {
     @State private var infoViewIsPresented = false
     @State private var pictureViewIsPresented = false
     
-    
     @State private var currentFilter = DeutanFilter()
     let context = CIContext()
-    //    @State var image = UIImage(imageLiteralResourceName: "apples-2")
-    //    @State var inputImage: CGImage?
     
-    @State private var processedImage: UIImage?
+//    @State private var processedImage: UIImage?
     @State private var image: Image?
     @State private var inputImage: UIImage?
     @State private var showingImagePicker = false
+    
+    @State var isUsingOwnImage = false
     
     func applyFilter() -> CGImage? {
         let ciContext = CIContext()
@@ -29,6 +28,7 @@ struct ContentView: View {
         case 0:
             //            image = UIImage(model.frame)
             return model.frame
+            
         case 1:
             return applyDeutanFilter(input: myImage)
         //            currentFilter = DeutanFilter()
@@ -139,8 +139,10 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             
-            FrameView(image:  applyFilter())
+            
+            FrameView(image: applyFilter())
                 .edgesIgnoringSafeArea(.all)
+            
             //                        ErrorView(error: model.error)
             //                            Image("apples-2")
             //            image
@@ -218,10 +220,17 @@ struct ContentView: View {
                         .font(.system(size: 70))
                         .foregroundColor(Color.black)
                         .fullScreenCover(isPresented: $pictureViewIsPresented) {
-                            ZStack(alignment: .bottom) {
-                                Text("\(Image("apples-1"))")
-                                    .scaledToFit()
+                            ZStack() {
+                                FrameView(image: applyFilter())
                                     .edgesIgnoringSafeArea(.all)
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                ZStack() {
                                 VStack {
                                     Button("Save to Photos"){
                                         loadImage()
@@ -235,9 +244,15 @@ struct ContentView: View {
                                     Button("Dismiss"){
                                         pictureViewIsPresented = false
                                     }
-                                    .foregroundColor(Color.red)
+                                    .frame(height: 30)
+                                        .padding(10)
+                                    .background(Color.red)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                                    
                                 }
                                 .offset(y: UIScreen.main.bounds.size.height/3)
+                                }
                             }
                         }
                         
