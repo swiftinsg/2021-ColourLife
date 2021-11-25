@@ -26,13 +26,13 @@ struct ContentView: View {
             return model.frame
         case 1:
             return applyDeutanFilter(input: myImage)
-            //            currentFilter = DeutanFilter()
+        //            currentFilter = DeutanFilter()
         case 2:
             return applyProtanFilter(input: myImage)
-            //            currentFilter = ProtanFilter()
+        //            currentFilter = ProtanFilter()
         case 3:
             return applyTritanFilter(input: myImage)
-            //            currentFilter = TritanFilter()
+        //            currentFilter = TritanFilter()
         case 4:
             return applyAchromatFilter(input: myImage)
         case 5:
@@ -153,7 +153,7 @@ struct ContentView: View {
                         }
                     }
                     ScrollView(.horizontal){
-                        HStack{
+                        LazyHStack{
                             ForEach(0..<types.count) {type in
                                 Button(types[type]) {
                                     buttonPressed = type
@@ -176,10 +176,12 @@ struct ContentView: View {
                         }
                         .sheet(isPresented: $infoViewIsPresented) {
                             ScrollView{
-                                Text("\(types[buttonPressed])")
-                                    .font(.system(.largeTitle))
-                                    .fontWeight(.bold)
                                 VStack {
+                                    Spacer()
+                                    Text("\(types[buttonPressed])")
+                                        .font(.system(.largeTitle))
+                                        .fontWeight(.bold)
+                                        .padding()
                                     Text("\(info[buttonPressed])")
                                         .font(.system(size:25))
                                         .padding(20)
