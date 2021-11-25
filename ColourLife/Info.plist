@@ -4,6 +4,8 @@
 <dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs the camera to show the world through a color blind person&apos;s eye</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We want to save the filtered photo</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
