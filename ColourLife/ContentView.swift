@@ -12,34 +12,30 @@ struct ContentView: View {
     @State private var pictureViewIsPresented = false
     
     
-    @State private var currentFilter = DeutanFilter()
     let context = CIContext()
     //    @State var image = UIImage(imageLiteralResourceName: "apples-2")
     //    @State var inputImage: CGImage?
     
     func applyFilter() -> CGImage? {
-        let ciContext = CIContext()
-        let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)!
-        switch buttonPressed {
-        case 0:
-            //            image = UIImage(model.frame)
-            return model.frame
-        case 1:
-            return applyDeutanFilter(input: myImage)
-            //            currentFilter = DeutanFilter()
-        case 2:
-            return applyProtanFilter(input: myImage)
-            //            currentFilter = ProtanFilter()
-        case 3:
-            return applyTritanFilter(input: myImage)
-            //            currentFilter = TritanFilter()
-        case 4:
-            return applyAchromatFilter(input: myImage)
-        case 5:
-            return applyBCMonoFilter(input: myImage)
-        default:
-            //            return loadImage()
-            return myImage
+        if let image = model.frame {
+            switch buttonPressed {
+            case 0:
+                return model.frame
+            case 1:
+                return applyDeutanFilter(input: image)
+            case 2:
+                return applyProtanFilter(input: image)
+            case 3:
+                return applyTritanFilter(input: image)
+            case 4:
+                return applyAchromatFilter(input: image)
+            case 5:
+                return applyBCMonoFilter(input: image)
+            default:
+                return model.frame
+            }
+        } else {
+            return nil
         }
     }
     
@@ -123,8 +119,8 @@ struct ContentView: View {
             
             FrameView(image:  applyFilter())
                 .edgesIgnoringSafeArea(.all)
-            //                        ErrorView(error: model.error)
-            //                            Image("apples-2")
+            ErrorView(error: model.error)
+//            Image("apples-2")
             //            image
             //                .resizable()
             //                .edgesIgnoringSafeArea(.all)
