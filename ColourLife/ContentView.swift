@@ -17,6 +17,11 @@ struct ContentView: View {
     //    @State var image = UIImage(imageLiteralResourceName: "apples-2")
     //    @State var inputImage: CGImage?
     
+    @State private var processedImage: UIImage?
+    @State private var image: Image?
+    @State private var inputImage: UIImage?
+    @State private var showingImagePicker = false
+    
     func applyFilter() -> CGImage? {
         let ciContext = CIContext()
         let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)!
@@ -118,6 +123,19 @@ struct ContentView: View {
     //        return model.frame
     //    }
     
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
+        
+        UIImageWriteToSavedPhotosAlbum(inputImage, nil, nil, nil)
+        let imageSaver = ImageSaver()
+        imageSaver.writeToPhotoAlbum(image: inputImage)
+    }
+    
+    //func transferImage() {
+    //    processedImage = FrameView.image
+    //}
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             
@@ -174,6 +192,8 @@ struct ContentView: View {
                         Button("\(Image(systemName: "questionmark.circle.fill"))"){
                             infoViewIsPresented = true
                         }
+                        .font(.system(size: 30))
+                        .offset(x: -UIScreen.main.bounds.size.width/6)
                         .sheet(isPresented: $infoViewIsPresented) {
                             ScrollView{
                                 VStack {
@@ -186,29 +206,26 @@ struct ContentView: View {
                                         .font(.system(size:25))
                                         .padding(20)
                                     links[buttonPressed]
+                                        .font(.system(size:25))
                                         .padding()
                                 }
                             }
                         }
-                        .font(.system(size: 30))
-                        .offset(x: -UIScreen.main.bounds.size.width/6)
                         
                         Button("\(Image(systemName: "camera.circle.fill"))"){
-                            //picture sheet
+                            pictureViewIsPresented = true
                         }
                         .font(.system(size: 70))
                         .foregroundColor(Color.black)
-                        
-                        Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
-                            pictureViewIsPresented = true
-                        }
                         .fullScreenCover(isPresented: $pictureViewIsPresented) {
-                            //InfoView()
-                            ZStack {
+                            ZStack(alignment: .bottom) {
                                 Text("\(Image("apples-1"))")
+                                    .scaledToFit()
+                                    .edgesIgnoringSafeArea(.all)
                                 VStack {
                                     Button("Save to Photos"){
-                                        //request access to photos
+                                        loadImage()
+                                        pictureViewIsPresented = false
                                     }
                                     .frame(height: 30)
                                     .padding(10)
@@ -220,11 +237,18 @@ struct ContentView: View {
                                     }
                                     .foregroundColor(Color.red)
                                 }
-                                .offset(y: UIScreen.main.bounds.size.height/2.5)
+                                .offset(y: UIScreen.main.bounds.size.height/3)
                             }
+                        }
+                        
+                        Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
+                            self.showingImagePicker = true
                         }
                         .font(.system(size: 30))
                         .offset(x: UIScreen.main.bounds.size.width/6)
+                        .sheet(isPresented: $showingImagePicker) {
+                            ImagePicker(image: self.$inputImage)
+                        }
                     }
                     .offset(y: -20)
                 }
@@ -234,8 +258,6 @@ struct ContentView: View {
         .frame(height: UIScreen.main.bounds.size.height)
     }
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

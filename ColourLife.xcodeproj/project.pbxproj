@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DF7C9BF274FD781002ED22D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF7C9BE274FD781002ED22D /* ImagePicker.swift */; };
+		0DF7C9C1274FD806002ED22D /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF7C9C0274FD806002ED22D /* ImageSaver.swift */; };
 		2E1D0DCD2747F02800A2CDF1 /* ColourLifeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D0DCC2747F02800A2CDF1 /* ColourLifeApp.swift */; };
 		2E1D0DD12747F02A00A2CDF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E1D0DD02747F02A00A2CDF1 /* Assets.xcassets */; };
 		2E1D0DD42747F02A00A2CDF1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E1D0DD32747F02A00A2CDF1 /* Preview Assets.xcassets */; };
@@ -63,6 +65,8 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
+		0DF7C9BE274FD781002ED22D /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		0DF7C9C0274FD806002ED22D /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		2E1D0DC92747F02800A2CDF1 /* ColourLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColourLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E1D0DCC2747F02800A2CDF1 /* ColourLifeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourLifeApp.swift; sourceTree = "<group>"; };
 		2E1D0DD02747F02A00A2CDF1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				2E3A475E274CC97E00C6DB66 /* ContentView.swift */,
+				0DF7C9C0274FD806002ED22D /* ImageSaver.swift */,
+				0DF7C9BE274FD781002ED22D /* ImagePicker.swift */,
 				2E1F5735274F55CF00A0A780 /* Info.swift */,
 				2E1D0DCC2747F02800A2CDF1 /* ColourLifeApp.swift */,
 				2E309316274BF63D001734F9 /* CameraManager.swift */,
@@ -236,9 +242,11 @@
 				2EDBA879274B73480036F133 /* FrameView.swift in Sources */,
 				2E30931B274BF673001734F9 /* CameraError.swift in Sources */,
 				2E30930F274BF5EC001734F9 /* CGImageExtension.swift in Sources */,
+				0DF7C9BF274FD781002ED22D /* ImagePicker.swift in Sources */,
 				2E1F5733274F543500A0A780 /* BCMonoFilter.swift in Sources */,
 				2E1F571B274EDDC600A0A780 /* DeutanFilter.ci.metal in Sources */,
 				2E1F5721274F24F700A0A780 /* TritanFilter.ci.metal in Sources */,
+				0DF7C9C1274FD806002ED22D /* ImageSaver.swift in Sources */,
 				2EDBA889274B78020036F133 /* FrameManager.swift in Sources */,
 				2E1F5730274F53EE00A0A780 /* BCMonoFilter.ci.metal in Sources */,
 				2E1F572B274F4D4A00A0A780 /* AchromatFilter.swift in Sources */,
