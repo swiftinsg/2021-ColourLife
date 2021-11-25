@@ -24,7 +24,7 @@ class ProtanFilter: CIFilter {
     }
 
     guard let kernel = try? CIColorKernel(
-      functionName: "colorFilterKernel",
+      functionName: "protanFilterKernel",
       fromMetalLibraryData: data) else {
       fatalError("Unable to create color kernel")
     }

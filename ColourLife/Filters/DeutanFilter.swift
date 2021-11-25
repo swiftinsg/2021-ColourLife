@@ -24,7 +24,7 @@ class DeutanFilter: CIFilter {
     }
 
     guard let kernel = try? CIColorKernel(
-      functionName: "colorFilterKernel",
+      functionName: "deutanFilterKernel",
       fromMetalLibraryData: data) else {
       fatalError("Unable to create color kernel")
     }
