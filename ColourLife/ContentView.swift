@@ -11,10 +11,11 @@ struct ContentView: View {
     @State private var infoViewIsPresented = false
     @State private var pictureViewIsPresented = false
     
+    
     @State private var currentFilter = DeutanFilter()
     let context = CIContext()
     
-//    @State private var processedImage: UIImage?
+    //    @State private var processedImage: UIImage?
     @State private var image: Image?
     @State private var inputImage: UIImage?
     @State private var showingImagePicker = false
@@ -31,13 +32,13 @@ struct ContentView: View {
             
         case 1:
             return applyDeutanFilter(input: myImage)
-        //            currentFilter = DeutanFilter()
+            //            currentFilter = DeutanFilter()
         case 2:
             return applyProtanFilter(input: myImage)
-        //            currentFilter = ProtanFilter()
+            //            currentFilter = ProtanFilter()
         case 3:
             return applyTritanFilter(input: myImage)
-        //            currentFilter = TritanFilter()
+            //            currentFilter = TritanFilter()
         case 4:
             return applyAchromatFilter(input: myImage)
         case 5:
@@ -111,7 +112,6 @@ struct ContentView: View {
         guard let inputImage = inputImage else { return }
         image = Image(uiImage: inputImage)
         
-        UIImageWriteToSavedPhotosAlbum(inputImage, nil, nil, nil)
         let imageSaver = ImageSaver()
         imageSaver.writeToPhotoAlbum(image: inputImage)
     }
@@ -191,7 +191,7 @@ struct ContentView: View {
                         .font(.system(size: 70))
                         .foregroundColor(Color.black)
                         .fullScreenCover(isPresented: $pictureViewIsPresented) {
-                            ZStack() {
+                            ZStack {
                                 FrameView(image: applyFilter())
                                     .edgesIgnoringSafeArea(.all)
                                 
@@ -209,13 +209,13 @@ struct ContentView: View {
                                         pictureViewIsPresented = false
                                     }
                                     .frame(height: 30)
-                                        .padding(10)
+                                    .padding(10)
                                     .background(Color.red)
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
                                     
                                 }
-                                .offset(y: UIScreen.main.bounds.size.height/3)
+                                .offset(y: UIScreen.main.bounds.size.height/4)
                             }
                         }
                         
