@@ -127,8 +127,6 @@ struct ContentView: View {
             FrameView(image: applyFilter())
                 .edgesIgnoringSafeArea(.all)
             
-            
-            
             ZStack(alignment: .bottom) {
                 
                 Color.white
@@ -137,10 +135,8 @@ struct ContentView: View {
                     if (buttonPressed != 0 && buttonPressed != 4 && buttonPressed != 5) {
                         HStack(alignment: .center){
                             Text("Mild")
-                                .padding()
                             Slider(value: $severity, in: 1...10,step:1)
                             Text("Severe")
-                                .padding()
                         }
                     }
                     ScrollView(.horizontal){
@@ -186,38 +182,38 @@ struct ContentView: View {
                         }
                         
                         Button("\(Image(systemName: "camera.circle.fill"))"){
-                            pictureViewIsPresented = true
+                            loadImage()
                         }
                         .font(.system(size: 70))
                         .foregroundColor(Color.black)
-                        .fullScreenCover(isPresented: $pictureViewIsPresented) {
-                            ZStack {
-                                FrameView(image: applyFilter())
-                                    .edgesIgnoringSafeArea(.all)
-                                
-                                VStack {
-                                    Button("Save to Photos"){
-                                        loadImage()
-                                        pictureViewIsPresented = false
-                                    }
-                                    .frame(height: 30)
-                                    .padding(10)
-                                    .background(Color.blue)
-                                    .foregroundColor(Color.white)
-                                    .cornerRadius(15)
-                                    Button("Dismiss"){
-                                        pictureViewIsPresented = false
-                                    }
-                                    .frame(height: 30)
-                                    .padding(10)
-                                    .background(Color.red)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                                    
-                                }
-                                .offset(y: UIScreen.main.bounds.size.height/4)
-                            }
-                        }
+                        //.fullScreenCover(isPresented: $pictureViewIsPresented) {
+                        //    ZStack {
+                        //        inputImage
+                        //            .edgesIgnoringSafeArea(.all)
+                        //
+                        //        VStack {
+                        //            Button("Save to Photos"){
+                        //                loadImage()
+                        //                pictureViewIsPresented = false
+                        //            }
+                        //            .frame(height: 30)
+                        //            .padding(10)
+                        //            .background(Color.blue)
+                        //            .foregroundColor(Color.white)
+                        //            .cornerRadius(15)
+                        //            Button("Dismiss"){
+                        //                pictureViewIsPresented = false
+                        //            }
+                        //            .frame(height: 30)
+                        //            .padding(10)
+                        //            .background(Color.red)
+                        //            .foregroundColor(.white)
+                        //            .cornerRadius(10)
+                        //
+                        //        }
+                        //        .offset(y: UIScreen.main.bounds.size.height/4)
+                        //    }
+                        //}
                         
                         Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
                             self.showingImagePicker = true
