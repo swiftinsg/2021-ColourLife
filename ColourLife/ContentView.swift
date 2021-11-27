@@ -212,7 +212,7 @@ struct ContentView: View {
                         }
                         
                         Button("\(Image(systemName: "camera.circle.fill"))"){
-                            savedImage = model.frame
+                            savedImage = applyFilter()
 //                            loadImage(inputImage: savedImage!)
                         }
                         .font(.system(size: 70))
