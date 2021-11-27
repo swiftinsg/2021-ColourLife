@@ -13,12 +13,13 @@ struct ContentView: View {
     
     // ahhhhhhhhhh
     @State var savedImage: CGImage?
+//    let imageSaver = ImageSaver()
     
     @State private var currentFilter = DeutanFilter()
     let context = CIContext()
     
     //    @State private var processedImage: UIImage?
-//    @State private var image: Image?
+    //    @State private var image: Image?
     @State private var inputImage: UIImage?
     @State private var showingImagePicker = false
     
@@ -26,50 +27,51 @@ struct ContentView: View {
     
     func applyFilter() -> CGImage? {
         /*
-        //let ciContext = CIContext()
-        //let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)!
-        switch buttonPressed {
-        case 0:
-            //            image = UIImage(model.frame)
-            return model.frame
-            
-        case 1:
-            return applyDeutanFilter(input: model.frame)
-            //            currentFilter = DeutanFilter()
-        case 2:
-            return applyProtanFilter(input: model.frame)
-            //            currentFilter = ProtanFilter()
-        case 3:
-            return applyTritanFilter(input: model.frame)
-            //            currentFilter = TritanFilter()
-        case 4:
-            return applyAchromatFilter(input: model.frame)
-        case 5:
-            return applyBCMonoFilter(input: model.frame)
-        default:
-            //            return loadImage()
-            return model.frame
-        */
-        if let image = model.frame {
-            switch buttonPressed {
-            case 0:
-                return model.frame
-            case 1:
-                return applyDeutanFilter(input: image)
-            case 2:
-                return applyProtanFilter(input: image)
-            case 3:
-                return applyTritanFilter(input: image)
-            case 4:
-                return applyAchromatFilter(input: image)
-            case 5:
-                return applyBCMonoFilter(input: image)
-            default:
-                return model.frame
-            }
-        } else {
-            return nil
-        }
+         //let ciContext = CIContext()
+         let myImage = context.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)!
+         switch buttonPressed {
+         case 0:
+         //            image = UIImage(model.frame)
+         return model.frame
+         
+         case 1:
+         return applyDeutanFilter(input: model.frame)
+         //            currentFilter = DeutanFilter()
+         case 2:
+         return applyProtanFilter(input: model.frame)
+         //            currentFilter = ProtanFilter()
+         case 3:
+         return applyTritanFilter(input: model.frame)
+         //            currentFilter = TritanFilter()
+         case 4:
+         return applyAchromatFilter(input: model.frame)
+         case 5:
+         return applyBCMonoFilter(input: model.frame)
+         default:
+         //            return loadImage()
+         return model.frame
+         */
+        let myImage = context.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)
+                if let image = myImage {
+                    switch buttonPressed {
+                    case 0:
+                        return image
+                    case 1:
+                        return applyDeutanFilter(input: image)
+                    case 2:
+                        return applyProtanFilter(input: image)
+                    case 3:
+                        return applyTritanFilter(input: image)
+                    case 4:
+                        return applyAchromatFilter(input: image)
+                    case 5:
+                        return applyBCMonoFilter(input: image)
+                    default:
+                        return image
+                    }
+                } else {
+                    return nil
+                }
     }
     
     func applyProtanFilter(input: CGImage) -> CGImage {
@@ -149,13 +151,13 @@ struct ContentView: View {
             
             FrameView(image: applyFilter())
                 .edgesIgnoringSafeArea(.all)
-
+            
             ErrorView(error: model.error)
-//            Image("apples-2")
+            //            Image("apples-2")
             //            image
             //                .resizable()
             //                .edgesIgnoringSafeArea(.all)
-
+            
             
             ZStack(alignment: .bottom) {
                 
@@ -214,18 +216,21 @@ struct ContentView: View {
                         Button("\(Image(systemName: "camera.circle.fill"))"){
                             savedImage = applyFilter()
                             pictureViewIsPresented = true
-//                            loadImage(inputImage: savedImage!)
+                            //                            loadImage(inputImage: savedImage!)
                         }
                         .font(.system(size: 70))
                         .foregroundColor(Color.black)
                         .fullScreenCover(isPresented: $pictureViewIsPresented) {
                             ZStack {
-                                FrameView(image: savedImage)
-                                    .edgesIgnoringSafeArea(.all)
-                        
+                                
+//                                if (savedImage != nil){
+//                                    Image(uiImage: UIImage(cgImage: savedImage))
+                                    FrameView(image: savedImage)
+                                        .edgesIgnoringSafeArea(.all)
+//                                }
                                 VStack {
                                     Button("Save to Photos"){
-                                        loadImage(inputImage: savedImage!)
+                                        loadImage(inputImage: savedImage)
                                         pictureViewIsPresented = false
                                     }
                                     .frame(height: 30)
@@ -241,20 +246,24 @@ struct ContentView: View {
                                     .background(Color.red)
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
-                        
+                                    
                                 }
                                 .offset(y: UIScreen.main.bounds.size.height/4)
                             }
                         }
+//                        i have no idea why this is required 
+                        if (savedImage != nil) {
+                            EmptyView()
+                        }
                         
-//                        Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
-//                            self.showingImagePicker = true
-//                        }
-//                        .font(.system(size: 30))
-//                        .offset(x: UIScreen.main.bounds.size.width/6)
-//                        .sheet(isPresented: $showingImagePicker) {
-//                            ImagePicker(image: self.$inputImage)
-//                        }
+                        Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
+                            self.showingImagePicker = true
+                        }
+                        .font(.system(size: 30))
+                        .offset(x: UIScreen.main.bounds.size.width/6)
+                        .sheet(isPresented: $showingImagePicker) {
+                            ImagePicker(image: self.$inputImage)
+                        }
                     }
                     .offset(y: -20)
                 }

@@ -28,7 +28,7 @@ struct FrameView: View {
           }
         } else {
           // 4
-          Color.black
+          Text("Oops! Something has gone wrong")
         }
 
     }
