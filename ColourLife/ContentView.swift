@@ -15,7 +15,7 @@ struct ContentView: View {
     @State var savedImage: CGImage?
 //    let imageSaver = ImageSaver()
     
-    @State private var currentFilter = DeutanFilter()
+//    @State private var currentFilter = DeutanFilter()
     let context = CIContext()
     
     //    @State private var processedImage: UIImage?
@@ -51,7 +51,9 @@ struct ContentView: View {
          //            return loadImage()
          return model.frame
          */
-        let myImage = context.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)
+        var myImage: CGImage?
+        if isUsingOwnImage { myImage = inputImage?.cgImage }
+        else { myImage = context.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)}
                 if let image = myImage {
                     switch buttonPressed {
                     case 0:
@@ -133,13 +135,26 @@ struct ContentView: View {
         return input
     }
     
-    func loadImage(inputImage: CGImage?) {
-        guard let inputImage = inputImage else { return }
-        let image = UIImage(cgImage: inputImage)
+    func saveImage(inputImage: CGImage?) {
+//        guard let inputImage = inputImage else {
+//            isUsingOwnImage = false
+//            return
+//
+//        }
+//        let image = UIImage(cgImage: inputImage)
         
         let imageSaver = ImageSaver()
-        imageSaver.writeToPhotoAlbum(image: image)
+        imageSaver.writeToPhotoAlbum(image: UIImage(cgImage: inputImage!))
     }
+    
+    func loadImage() {
+        guard inputImage != nil else {
+            isUsingOwnImage = false
+            return
+        }
+        isUsingOwnImage = true
+    }
+    
     
     //func transferImage() {
     //    processedImage = FrameView.image
@@ -149,7 +164,7 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             
             
-            FrameView(image: applyFilter())
+            FrameView(image: .constant(applyFilter()))
                 .edgesIgnoringSafeArea(.all)
             
             ErrorView(error: model.error)
@@ -167,8 +182,10 @@ struct ContentView: View {
                     if (buttonPressed != 0 && buttonPressed != 4 && buttonPressed != 5) {
                         HStack(alignment: .center){
                             Text("Mild")
+                                .padding()
                             Slider(value: $severity, in: 1...10,step:1)
                             Text("Severe")
+                                .padding()
                         }
                     }
                     ScrollView(.horizontal){
@@ -223,14 +240,13 @@ struct ContentView: View {
                         .fullScreenCover(isPresented: $pictureViewIsPresented) {
                             ZStack {
                                 
-//                                if (savedImage != nil){
-//                                    Image(uiImage: UIImage(cgImage: savedImage))
-                                    FrameView(image: savedImage)
+                                if (savedImage != nil){
+                                    FrameView(image: $savedImage)
                                         .edgesIgnoringSafeArea(.all)
-//                                }
+                                }
                                 VStack {
                                     Button("Save to Photos"){
-                                        loadImage(inputImage: savedImage)
+                                        saveImage(inputImage: savedImage)
                                         pictureViewIsPresented = false
                                     }
                                     .frame(height: 30)
@@ -251,21 +267,18 @@ struct ContentView: View {
                                 .offset(y: UIScreen.main.bounds.size.height/4)
                             }
                         }
-//                        i have no idea why this is required 
-                        if (savedImage != nil) {
-                            EmptyView()
-                        }
                         
                         Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
                             self.showingImagePicker = true
                         }
                         .font(.system(size: 30))
                         .offset(x: UIScreen.main.bounds.size.width/6)
-                        .sheet(isPresented: $showingImagePicker) {
+                        .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
                             ImagePicker(image: self.$inputImage)
                         }
                     }
                     .offset(y: -20)
+                    .padding()
                 }
             }
             .frame(height: buttonPressed == 0 || buttonPressed == 4  || buttonPressed == 5 ? 175:220)

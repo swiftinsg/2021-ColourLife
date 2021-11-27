@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FrameView: View {
-    var image: CGImage?
+    @Binding var image: CGImage?
     private let label = Text("Camera Feed")
     
     var body: some View {
@@ -36,6 +36,6 @@ struct FrameView: View {
 
 struct FrameView_Previews: PreviewProvider {
     static var previews: some View {
-        FrameView(image:nil)
+        FrameView(image: .constant(nil) )
     }
 }
