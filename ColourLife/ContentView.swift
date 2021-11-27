@@ -11,11 +11,14 @@ struct ContentView: View {
     @State private var infoViewIsPresented = false
     @State private var pictureViewIsPresented = false
     
+    // ahhhhhhhhhh
+    @State var savedImage: CGImage?
+    
     @State private var currentFilter = DeutanFilter()
     let context = CIContext()
     
     //    @State private var processedImage: UIImage?
-    @State private var image: Image?
+//    @State private var image: Image?
     @State private var inputImage: UIImage?
     @State private var showingImagePicker = false
     
@@ -128,12 +131,12 @@ struct ContentView: View {
         return input
     }
     
-    func loadImage() {
+    func loadImage(inputImage: CGImage?) {
         guard let inputImage = inputImage else { return }
-        image = Image(uiImage: inputImage)
+        let image = UIImage(cgImage: inputImage)
         
         let imageSaver = ImageSaver()
-        imageSaver.writeToPhotoAlbum(image: inputImage)
+        imageSaver.writeToPhotoAlbum(image: image)
     }
     
     //func transferImage() {
@@ -209,47 +212,48 @@ struct ContentView: View {
                         }
                         
                         Button("\(Image(systemName: "camera.circle.fill"))"){
-                            loadImage()
+                            savedImage = model.frame
+//                            loadImage(inputImage: savedImage!)
                         }
                         .font(.system(size: 70))
                         .foregroundColor(Color.black)
-                        //.fullScreenCover(isPresented: $pictureViewIsPresented) {
-                        //    ZStack {
-                        //        inputImage
-                        //            .edgesIgnoringSafeArea(.all)
-                        //
-                        //        VStack {
-                        //            Button("Save to Photos"){
-                        //                loadImage()
-                        //                pictureViewIsPresented = false
-                        //            }
-                        //            .frame(height: 30)
-                        //            .padding(10)
-                        //            .background(Color.blue)
-                        //            .foregroundColor(Color.white)
-                        //            .cornerRadius(15)
-                        //            Button("Dismiss"){
-                        //                pictureViewIsPresented = false
-                        //            }
-                        //            .frame(height: 30)
-                        //            .padding(10)
-                        //            .background(Color.red)
-                        //            .foregroundColor(.white)
-                        //            .cornerRadius(10)
-                        //
-                        //        }
-                        //        .offset(y: UIScreen.main.bounds.size.height/4)
-                        //    }
-                        //}
+                        .fullScreenCover(isPresented: $pictureViewIsPresented) {
+                            ZStack {
+                                FrameView(image: savedImage)
+                                    .edgesIgnoringSafeArea(.all)
                         
-                        Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
-                            self.showingImagePicker = true
+                                VStack {
+                                    Button("Save to Photos"){
+                                        loadImage(inputImage: savedImage!)
+                                        pictureViewIsPresented = false
+                                    }
+                                    .frame(height: 30)
+                                    .padding(10)
+                                    .background(Color.blue)
+                                    .foregroundColor(Color.white)
+                                    .cornerRadius(15)
+                                    Button("Dismiss"){
+                                        pictureViewIsPresented = false
+                                    }
+                                    .frame(height: 30)
+                                    .padding(10)
+                                    .background(Color.red)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                        
+                                }
+                                .offset(y: UIScreen.main.bounds.size.height/4)
+                            }
                         }
-                        .font(.system(size: 30))
-                        .offset(x: UIScreen.main.bounds.size.width/6)
-                        .sheet(isPresented: $showingImagePicker) {
-                            ImagePicker(image: self.$inputImage)
-                        }
+                        
+//                        Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
+//                            self.showingImagePicker = true
+//                        }
+//                        .font(.system(size: 30))
+//                        .offset(x: UIScreen.main.bounds.size.width/6)
+//                        .sheet(isPresented: $showingImagePicker) {
+//                            ImagePicker(image: self.$inputImage)
+//                        }
                     }
                     .offset(y: -20)
                 }
