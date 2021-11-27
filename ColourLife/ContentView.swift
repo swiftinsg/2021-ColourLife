@@ -213,6 +213,7 @@ struct ContentView: View {
                         
                         Button("\(Image(systemName: "camera.circle.fill"))"){
                             savedImage = applyFilter()
+                            pictureViewIsPresented = true
 //                            loadImage(inputImage: savedImage!)
                         }
                         .font(.system(size: 70))
