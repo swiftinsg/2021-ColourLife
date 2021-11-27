@@ -22,30 +22,31 @@ struct ContentView: View {
     @State var isUsingOwnImage = false
     
     func applyFilter() -> CGImage? {
-        let ciContext = CIContext()
-        let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)!
+        /*
+        //let ciContext = CIContext()
+        //let myImage = ciContext.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)!
         switch buttonPressed {
         case 0:
             //            image = UIImage(model.frame)
             return model.frame
             
         case 1:
-            return applyDeutanFilter(input: myImage)
+            return applyDeutanFilter(input: model.frame)
             //            currentFilter = DeutanFilter()
         case 2:
-            return applyProtanFilter(input: myImage)
+            return applyProtanFilter(input: model.frame)
             //            currentFilter = ProtanFilter()
         case 3:
-            return applyTritanFilter(input: myImage)
+            return applyTritanFilter(input: model.frame)
             //            currentFilter = TritanFilter()
         case 4:
-            return applyAchromatFilter(input: myImage)
+            return applyAchromatFilter(input: model.frame)
         case 5:
-            return applyBCMonoFilter(input: myImage)
+            return applyBCMonoFilter(input: model.frame)
         default:
             //            return loadImage()
-            return myImage
-
+            return model.frame
+        */
         if let image = model.frame {
             switch buttonPressed {
             case 0:
