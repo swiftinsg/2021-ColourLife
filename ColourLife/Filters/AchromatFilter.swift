@@ -33,7 +33,7 @@ class AchromatFilter: CIFilter {
 
     
     // 4
-    func getOutputImage() -> CIImage? {
+    override var outputImage: CIImage? {
         guard let inputImage = inputImage else { return nil }
         return AchromatFilter.kernel.apply(
             extent: inputImage.extent,

@@ -17,11 +17,11 @@ struct ContentView: View {
     
     //    @State private var currentFilter = DeutanFilter()
     let context = CIContext()
-    let protanFilter = ProtanFilter()
-    let deutanFilter = DeutanFilter()
-    let tritanFilter = TritanFilter()
-    let achromatFilter = AchromatFilter()
-    let bcMonoFilter = BCMonoFilter()
+//    let protanFilter = ProtanFilter()
+//    let deutanFilter = DeutanFilter()
+//    let tritanFilter = TritanFilter()
+//    let achromatFilter = AchromatFilter()
+//    let bcMonoFilter = BCMonoFilter()
     
     //    @State private var processedImage: UIImage?
     //    @State private var image: Image?
@@ -84,10 +84,11 @@ struct ContentView: View {
     }
     
     func applyProtanFilter(input: CGImage) -> CGImage {
+        let protanFilter = ProtanFilter()
         let beginImage =  CIImage(cgImage: input)
         protanFilter.inputImage = beginImage
         protanFilter.severity = Float(severity)
-        if let outputImage = protanFilter.getOutputImage() {
+        if let outputImage = protanFilter.outputImage {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -95,10 +96,11 @@ struct ContentView: View {
         return input
     }
     func applyDeutanFilter(input: CGImage) -> CGImage {
+        let deutanFilter = DeutanFilter()
         let beginImage =  CIImage(cgImage: input)
         deutanFilter.inputImage = beginImage
         deutanFilter.severity = Float(severity)
-        if let outputImage = deutanFilter.getOutputImage() {
+        if let outputImage = deutanFilter.outputImage {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -106,10 +108,11 @@ struct ContentView: View {
         return input
     }
     func applyTritanFilter(input: CGImage) -> CGImage {
+        let tritanFilter = TritanFilter()
         let beginImage =  CIImage(cgImage: input)
         tritanFilter.inputImage = beginImage
         tritanFilter.severity = Float(severity)
-        if let outputImage = tritanFilter.getOutputImage() {
+        if let outputImage = tritanFilter.outputImage {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -117,9 +120,10 @@ struct ContentView: View {
         return input
     }
     func applyAchromatFilter(input: CGImage) -> CGImage {
+        let achromatFilter = AchromatFilter()
         let beginImage =  CIImage(cgImage: input)
         achromatFilter.inputImage = beginImage
-        if let outputImage = achromatFilter.getOutputImage() {
+        if let outputImage = achromatFilter.outputImage {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -127,9 +131,10 @@ struct ContentView: View {
         return input
     }
     func applyBCMonoFilter(input: CGImage) -> CGImage {
+        let bcMonoFilter = BCMonoFilter()
         let beginImage =  CIImage(cgImage: input)
         bcMonoFilter.inputImage = beginImage
-        if let outputImage = bcMonoFilter.getOutputImage() {
+        if let outputImage = bcMonoFilter.outputImage {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -160,7 +165,7 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             
-            FrameView(image: .constant(applyFilter()))
+            FrameView(image: .constant(applyFilter()), isScaleToFit: $isUsingOwnImage)
                 .edgesIgnoringSafeArea(.all)
             
             ErrorView(error: model.error)
@@ -203,12 +208,13 @@ struct ContentView: View {
                     if (buttonPressed != 0 && buttonPressed != 4 && buttonPressed != 5) {
                         HStack(alignment: .center){
                             Text("Mild")
-                                .padding(.horizontal)
-                            Slider(value: $severity, in: 1...10,step:1)
+//                                .padding(.horizontal)
+                            Slider(value: $severity, in: 1...10, step:1)
                             Text("Severe")
-                                .padding(.horizontal)
+//                                .padding(.horizontal)
                         }
                         .padding(.top)
+                        .padding(.horizontal)
                     }
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack{
@@ -264,7 +270,7 @@ struct ContentView: View {
                             ZStack {
                                 
                                 if (savedImage != nil){
-                                    FrameView(image: $savedImage)
+                                    FrameView(image: $savedImage, isScaleToFit: $isUsingOwnImage)
                                         .edgesIgnoringSafeArea(.all)
                                 }
                                 VStack {
