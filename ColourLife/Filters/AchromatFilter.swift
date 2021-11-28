@@ -25,7 +25,7 @@ class AchromatFilter: CIFilter {
     guard let kernel = try? CIColorKernel(
       functionName: "achromatFilterKernel",
       fromMetalLibraryData: data) else {
-      fatalError("Unable to create color kernel")
+      fatalError("Unable to createcolourkernel")
     }
 
     return kernel
