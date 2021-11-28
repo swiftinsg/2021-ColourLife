@@ -34,7 +34,7 @@ class ProtanFilter: CIFilter {
 
     
     // 4
-    override var outputImage: CIImage? {
+    func getOutputImage() -> CIImage? {
         guard let inputImage = inputImage else { return nil }
         return ProtanFilter.kernel.apply(
             extent: inputImage.extent,

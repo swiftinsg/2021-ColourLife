@@ -34,7 +34,7 @@ class DeutanFilter: CIFilter {
 
     
     // 4
-    override var outputImage: CIImage? {
+    func getOutputImage() -> CIImage? {
         guard let inputImage = inputImage else { return nil }
         return DeutanFilter.kernel.apply(
             extent: inputImage.extent,

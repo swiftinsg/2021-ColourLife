@@ -17,6 +17,11 @@ struct ContentView: View {
     
 //    @State private var currentFilter = DeutanFilter()
     let context = CIContext()
+    let protanFilter = ProtanFilter()
+    let deutanFilter = DeutanFilter()
+    let tritanFilter = TritanFilter()
+    let achromatFilter = AchromatFilter()
+    let bcMonoFilter = BCMonoFilter()
     
     //    @State private var processedImage: UIImage?
     //    @State private var image: Image?
@@ -77,11 +82,10 @@ struct ContentView: View {
     }
     
     func applyProtanFilter(input: CGImage) -> CGImage {
-        let filter = ProtanFilter()
         let beginImage =  CIImage(cgImage: input)
-        filter.inputImage = beginImage
-        filter.severity = Float(severity)
-        if let outputImage = filter.outputImage {
+        protanFilter.inputImage = beginImage
+        protanFilter.severity = Float(severity)
+        if let outputImage = protanFilter.getOutputImage() {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -89,11 +93,10 @@ struct ContentView: View {
         return input
     }
     func applyDeutanFilter(input: CGImage) -> CGImage {
-        let filter = DeutanFilter()
         let beginImage =  CIImage(cgImage: input)
-        filter.inputImage = beginImage
-        filter.severity = Float(severity)
-        if let outputImage = filter.outputImage {
+        deutanFilter.inputImage = beginImage
+        deutanFilter.severity = Float(severity)
+        if let outputImage = deutanFilter.getOutputImage() {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -101,11 +104,10 @@ struct ContentView: View {
         return input
     }
     func applyTritanFilter(input: CGImage) -> CGImage {
-        let filter = TritanFilter()
         let beginImage =  CIImage(cgImage: input)
-        filter.inputImage = beginImage
-        filter.severity = Float(severity)
-        if let outputImage = filter.outputImage {
+        tritanFilter.inputImage = beginImage
+        tritanFilter.severity = Float(severity)
+        if let outputImage = tritanFilter.getOutputImage() {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -113,10 +115,9 @@ struct ContentView: View {
         return input
     }
     func applyAchromatFilter(input: CGImage) -> CGImage {
-        let filter = AchromatFilter()
         let beginImage =  CIImage(cgImage: input)
-        filter.inputImage = beginImage
-        if let outputImage = filter.outputImage {
+        achromatFilter.inputImage = beginImage
+        if let outputImage = achromatFilter.getOutputImage() {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -124,10 +125,9 @@ struct ContentView: View {
         return input
     }
     func applyBCMonoFilter(input: CGImage) -> CGImage {
-        let filter = BCMonoFilter()
         let beginImage =  CIImage(cgImage: input)
-        filter.inputImage = beginImage
-        if let outputImage = filter.outputImage {
+        bcMonoFilter.inputImage = beginImage
+        if let outputImage = bcMonoFilter.getOutputImage() {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
                 return cgimg
             }
@@ -178,17 +178,18 @@ struct ContentView: View {
                 
                 Color.white
                 
-                VStack {
+                VStack(spacing: 1) {
                     if (buttonPressed != 0 && buttonPressed != 4 && buttonPressed != 5) {
                         HStack(alignment: .center){
                             Text("Mild")
-                                .padding()
+                                .padding(.horizontal)
                             Slider(value: $severity, in: 1...10,step:1)
                             Text("Severe")
-                                .padding()
+                                .padding(.horizontal)
                         }
+                        .padding(.top)
                     }
-                    ScrollView(.horizontal){
+                    ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack{
                             ForEach(0..<types.count) {type in
                                 Button(types[type]) {
@@ -205,6 +206,7 @@ struct ContentView: View {
                         }
                         .padding(.horizontal,10)
                     }
+                    .offset(y: -7)
                     
                     HStack{
                         Button("\(Image(systemName: "questionmark.circle.fill"))"){
@@ -267,7 +269,11 @@ struct ContentView: View {
                                 .offset(y: UIScreen.main.bounds.size.height/4)
                             }
                         }
-                        
+                        // yeet i thought @Binding fixed it but it didnt
+                        if savedImage != nil {
+                            EmptyView()
+                        }
+                            
                         Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
                             self.showingImagePicker = true
                         }
@@ -277,8 +283,8 @@ struct ContentView: View {
                             ImagePicker(image: self.$inputImage)
                         }
                     }
-                    .offset(y: -20)
-                    .padding()
+                    .padding(.horizontal)
+                    .offset(y: -23)
                 }
             }
             .frame(height: buttonPressed == 0 || buttonPressed == 4  || buttonPressed == 5 ? 175:220)
