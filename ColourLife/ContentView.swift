@@ -164,7 +164,6 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             
-            
             FrameView(image: .constant(applyFilter()))
                 .edgesIgnoringSafeArea(.all)
             
