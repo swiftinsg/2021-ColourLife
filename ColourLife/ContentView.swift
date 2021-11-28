@@ -289,7 +289,7 @@ struct ContentView: View {
                                 .offset(y: UIScreen.main.bounds.size.height/2.75)
                             }
                         }
-                        // yeet i thought @Binding fixed it but it didnt
+                        //yeet i thought @Binding fixed it but it didnt
                         if savedImage != nil {
                             EmptyView()
                         }
