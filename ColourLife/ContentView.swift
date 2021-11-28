@@ -57,10 +57,11 @@ struct ContentView: View {
          //            return loadImage()
          return model.frame
          */
-//        var myImage: CGImage?
-//        if isUsingOwnImage { myImage = inputImage?.cgImage }
+        var myImage: CGImage?
+        if isUsingOwnImage { myImage = inputImage?.cgImage }
+        else { myImage = model.frame}
 //        else { myImage = context.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)}
-        if let image = model.frame {
+        if let image = myImage {
             switch buttonPressed {
             case 0:
                 return image
