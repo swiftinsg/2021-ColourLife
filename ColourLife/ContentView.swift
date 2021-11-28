@@ -169,10 +169,6 @@ struct ContentView: View {
                 .edgesIgnoringSafeArea(.all)
             
             ErrorView(error: model.error)
-            //            Image("apples-2")
-            //            image
-            //                .resizable()
-            //                .edgesIgnoringSafeArea(.all)
             
             ZStack(alignment: .bottom) {
                 
