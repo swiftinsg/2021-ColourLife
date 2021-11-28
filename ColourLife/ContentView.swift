@@ -13,9 +13,9 @@ struct ContentView: View {
     
     // ahhhhhhhhhh
     @State var savedImage: CGImage?
-//    let imageSaver = ImageSaver()
+    //    let imageSaver = ImageSaver()
     
-//    @State private var currentFilter = DeutanFilter()
+    //    @State private var currentFilter = DeutanFilter()
     let context = CIContext()
     let protanFilter = ProtanFilter()
     let deutanFilter = DeutanFilter()
@@ -29,6 +29,7 @@ struct ContentView: View {
     @State private var showingImagePicker = false
     
     @State var isUsingOwnImage = false
+    @State var hideUI = false
     
     func applyFilter() -> CGImage? {
         /*
@@ -59,26 +60,26 @@ struct ContentView: View {
         var myImage: CGImage?
         if isUsingOwnImage { myImage = inputImage?.cgImage }
         else { myImage = context.createCGImage(CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!, from: CIImage(image: UIImage(imageLiteralResourceName: "grocery_store"))!.extent)}
-                if let image = myImage {
-                    switch buttonPressed {
-                    case 0:
-                        return image
-                    case 1:
-                        return applyDeutanFilter(input: image)
-                    case 2:
-                        return applyProtanFilter(input: image)
-                    case 3:
-                        return applyTritanFilter(input: image)
-                    case 4:
-                        return applyAchromatFilter(input: image)
-                    case 5:
-                        return applyBCMonoFilter(input: image)
-                    default:
-                        return image
-                    }
-                } else {
-                    return nil
-                }
+        if let image = myImage {
+            switch buttonPressed {
+            case 0:
+                return image
+            case 1:
+                return applyDeutanFilter(input: image)
+            case 2:
+                return applyProtanFilter(input: image)
+            case 3:
+                return applyTritanFilter(input: image)
+            case 4:
+                return applyAchromatFilter(input: image)
+            case 5:
+                return applyBCMonoFilter(input: image)
+            default:
+                return image
+            }
+        } else {
+            return nil
+        }
     }
     
     func applyProtanFilter(input: CGImage) -> CGImage {
@@ -136,12 +137,12 @@ struct ContentView: View {
     }
     
     func saveImage(inputImage: CGImage?) {
-//        guard let inputImage = inputImage else {
-//            isUsingOwnImage = false
-//            return
-//
-//        }
-//        let image = UIImage(cgImage: inputImage)
+        //        guard let inputImage = inputImage else {
+        //            isUsingOwnImage = false
+        //            return
+        //
+        //        }
+        //        let image = UIImage(cgImage: inputImage)
         
         let imageSaver = ImageSaver()
         imageSaver.writeToPhotoAlbum(image: UIImage(cgImage: inputImage!))
@@ -173,6 +174,35 @@ struct ContentView: View {
             //                .resizable()
             //                .edgesIgnoringSafeArea(.all)
             
+            ZStack(alignment: .bottom) {
+                
+                Color.white
+                .opacity(hideUI ? 0.0 : 1.0)
+                
+                HStack {
+                    Button("\(Image(systemName: "camera"))"){
+                        isUsingOwnImage = false
+                    }
+                    .opacity(isUsingOwnImage ? 1.0 : 0.0)
+                    .font(.system(size:25))
+                    .padding(13)
+                    .foregroundColor(.blue)
+                    .offset(x: -UIScreen.main.bounds.size.width/3.3)
+                    
+                    Text("")
+                    
+                    Button("\(Image(systemName: hideUI ? "eye" : "eye.slash"))"){
+                        hideUI.toggle()
+                    }
+                    .font(.system(size:25))
+                    .padding(13)
+                    .foregroundColor(.blue)
+                    .offset(x: UIScreen.main.bounds.size.width/3.3)
+                }
+            }
+            .offset(y: -UIScreen.main.bounds.size.height/1.1)
+            .edgesIgnoringSafeArea(.top)
+            .frame(height: 170)
             
             ZStack(alignment: .bottom) {
                 
@@ -232,12 +262,12 @@ struct ContentView: View {
                             }
                         }
                         
-                        Button("\(Image(systemName: "camera.circle.fill"))"){
+                        Button("\(Image(systemName: isUsingOwnImage ? "square.and.arrow.down" : "camera.circle.fill"))"){
                             savedImage = applyFilter()
                             pictureViewIsPresented = true
                             //                            loadImage(inputImage: savedImage!)
                         }
-                        .font(.system(size: 70))
+                        .font(.system(size: isUsingOwnImage ? 60 : 70))
                         .foregroundColor(Color.black)
                         .fullScreenCover(isPresented: $pictureViewIsPresented) {
                             ZStack {
@@ -266,14 +296,14 @@ struct ContentView: View {
                                     .cornerRadius(10)
                                     
                                 }
-                                .offset(y: UIScreen.main.bounds.size.height/4)
+                                .offset(y: UIScreen.main.bounds.size.height/2.75)
                             }
                         }
                         // yeet i thought @Binding fixed it but it didnt
                         if savedImage != nil {
                             EmptyView()
                         }
-                            
+                        
                         Button("\(Image(systemName: "photo.fill.on.rectangle.fill"))"){
                             self.showingImagePicker = true
                         }
@@ -288,6 +318,7 @@ struct ContentView: View {
                 }
             }
             .frame(height: buttonPressed == 0 || buttonPressed == 4  || buttonPressed == 5 ? 175:220)
+            .opacity(hideUI ? 0.0 : 1.0)
         }
         .frame(height: UIScreen.main.bounds.size.height)
     }
