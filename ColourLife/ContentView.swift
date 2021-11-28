@@ -156,11 +156,6 @@ struct ContentView: View {
         isUsingOwnImage = true
     }
     
-    
-    //func transferImage() {
-    //    processedImage = FrameView.image
-    //}
-    
     var body: some View {
         ZStack(alignment: .bottom) {
             
